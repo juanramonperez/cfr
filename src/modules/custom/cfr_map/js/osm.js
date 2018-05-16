@@ -12,10 +12,12 @@
   Drupal.behaviors.openStreetMap = {
     attach: function (context, settings) {
       $('.open-street-map', context).once('open-street-map').each(function (index, element) {
-        // Get DOM object.
-        var container = $(element)[0];
         // Create map.
-        var map = new google.maps.Map(container, {zoom: 5});
+        var map = new OpenLayers.Map('osm');
+        map.addLayer(new OpenLayers.Layer.OSM());
+        // Add markers layer.
+        var markers = new OpenLayers.Layer.Markers('Markers');
+        map.addLayer(markers);
         // Get markers from service.
         $.ajax({
           type: 'get',
@@ -23,17 +25,21 @@
           success: function (response) {
             // Set first element as center.
             var first = _.first(response);
-            // Set center.
-            map.setCenter(new google.maps.LatLng(first.latitude, first.longitude));
+            // First marker.
+            var marker = new OpenLayers.LonLat(first.longitude, first.latitude).transform(
+              new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+              map.getProjectionObject() // to Spherical Mercator Projection
+            );
+            // Set center
+            map.setCenter(marker, 5);
             // Add markers.
             $.each(response, function(index, marker) {
-              var position = new google.maps.LatLng(marker.latitude, marker.longitude);
-              var gMarker = new google.maps.Marker({
-                position: position,
-                title: marker.title,
-              });
+              var markerOSM = new OpenLayers.LonLat(marker.longitude, marker.latitude).transform(
+                new OpenLayers.Projection("EPSG:4326"),
+                map.getProjectionObject()
+              );
               // Add marker to the map.
-              gMarker.setMap(map);
+              markers.addMarker(new OpenLayers.Marker(markerOSM));
             });
           },
           error: function (xhr, ajaxOptions, thrownError) {

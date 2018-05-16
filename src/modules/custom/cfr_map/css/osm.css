@@ -3,6 +3,7 @@
  * CSS for adding style to a Google Map.
  */
 
-.open-street-map {
+.open-street-map, .google-map {
   height: 400px;
+  margin-bottom: 40px;
 }

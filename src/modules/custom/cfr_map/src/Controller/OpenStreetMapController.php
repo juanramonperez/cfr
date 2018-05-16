@@ -26,9 +26,13 @@ class OpenStreetMapController extends ControllerBase {
     $build['#attached']['drupalSettings']['cfr_map'] = [
       'markers_url' => $url
     ];
-    $build['markup'] = [
+    $build['google'] = [
       '#type' => 'markup',
-      '#markup' => '<div class="open-street-map"></div>'
+      '#markup' => '<div class="google-map"></div>'
+    ];
+    $build['osm'] = [
+      '#type' => 'markup',
+      '#markup' => '<div id="osm" class="open-street-map"></div>'
     ];
     return $build;
   }
