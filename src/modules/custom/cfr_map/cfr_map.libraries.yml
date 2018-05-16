@@ -1,0 +1,17 @@
+
+maps-api:
+  js:
+    https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCApfrAVTtwKNytJ_mMLHjMBH3hGuWw0Gc: { type: external }
+
+markers:
+  css:
+    base:
+      css/osm.css: {}
+  js:
+    js/osm.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/underscore
+    - core/jquery.once
+    - cfr_map/maps-api

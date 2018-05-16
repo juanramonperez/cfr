@@ -1,0 +1,21 @@
+
+cfr-drupal:
+  image: drupal:8.5.3-apache
+  container_name: cfr_drupal
+  ports:
+    - 80:80
+  volumes:
+    - ../src/modules/custom:/var/www/html/modules/custom
+    - ../src/config/settings.php:/var/www/html/sites/default/settings.php
+    - ../src/config/sync:/var/www/html/sites/default/files/sync
+  links:
+    - cfr-mysql
+
+cfr-mysql:
+  image: mysql:5.6
+  container_name: cfr_mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_USER: cfr_user
+    MYSQL_PASSWORD: cfr_pass
+    MYSQL_DATABASE: cfr_database

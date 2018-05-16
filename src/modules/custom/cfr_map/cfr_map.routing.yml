@@ -1,0 +1,8 @@
+
+cfr_map.open_street_map_controller_view:
+  path: '/map/osm'
+  defaults:
+    _controller: '\Drupal\cfr_map\Controller\OpenStreetMapController::view'
+    _title: 'Open Street Map'
+  requirements:
+    _permission: 'access content'
